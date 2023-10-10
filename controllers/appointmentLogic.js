@@ -25,9 +25,9 @@ const getDoctorsAppointments = async (req, res) => {
 };
 
 const getPatientsAppointments = async (req, res) => {
-  const appointments = await Appointment.find({ patient: req.user.email }).sort(
-    { createdAd: -1 }
-  );
+  const appointments = await Appointment.find({ patient: req.user.email })
+    .sort({ createdAd: -1 })
+    .populate("doctor");
   if (appointments.length < 1) {
     res.status(StatusCodes.OK).json({ msg: "No appointment found" });
     return;
@@ -66,6 +66,15 @@ const updateAppointment = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Update successful", appointment });
 };
 
+const deleteAppointment = async (req, res) => {
+  const { id } = req.params;
+  const appointment = await Appointment.findOneAndDelete({ _id: id });
+  if (!appointment) {
+    throw new NotFoundError("Appointment not found");
+  }
+  res.status(StatusCodes.OK).json({ msg: "Delete successful" });
+};
+
 module.exports = {
   getAllAppointments,
   getAllAppointments,
@@ -73,4 +82,5 @@ module.exports = {
   createAppointment,
   getPatientsAppointments,
   getDoctorsAppointments,
+  deleteAppointment,
 };

@@ -32,6 +32,14 @@ const getPatient = async (req, res) => {
   res.status(StatusCodes.OK).json({ patient });
 };
 
+const getSinglePatient = async (req, res) => {
+  const patient = await Patient.findOne({ email: req.params.email });
+  if (!patient) {
+    return res.status(StatusCodes.OK).json({ created: false });
+  }
+  res.status(StatusCodes.OK).json({ patient });
+};
+
 const updatePatient = async (req, res) => {
   const patient = await Patient.findOneAndUpdate(
     { email: req.user.email },
@@ -70,4 +78,5 @@ module.exports = {
   updatePatient,
   getAllPatients,
   searchPatient,
+  getSinglePatient,
 };

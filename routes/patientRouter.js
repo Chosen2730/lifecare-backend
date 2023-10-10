@@ -5,6 +5,7 @@ const {
   updatePatient,
   getAllPatients,
   searchPatient,
+  getSinglePatient,
 } = require("../controllers/patientLogic");
 const {
   authorize,
@@ -21,5 +22,6 @@ router.get(
   authorizePermissions("admin", "doctor"),
   searchPatient
 );
+router.get("/:email", authorize, getSinglePatient);
 
 module.exports = router;

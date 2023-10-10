@@ -5,6 +5,7 @@ const {
   createAppointment,
   getPatientsAppointments,
   getDoctorsAppointments,
+  deleteAppointment,
 } = require("../controllers/appointmentLogic");
 const {
   authorize,
@@ -20,6 +21,7 @@ router.get(
   getAllAppointments
 );
 router.patch("/:id", authorize, updateAppointment);
+router.delete("/:id", authorize, deleteAppointment);
 router.get(
   "/:id",
   authorize,
