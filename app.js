@@ -29,7 +29,7 @@ app.use(express.urlencoded({ limit: "10mb", extended: "true" }));
 
 const port = process.env.PORT || 3000;
 app.get("/", (req, res) => {
-  res.send("TACSFON Web API");
+  res.send("LIFE CARE WEB API");
 });
 
 app.use(notFoundMiddleware);
