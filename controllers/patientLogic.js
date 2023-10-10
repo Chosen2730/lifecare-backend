@@ -23,6 +23,7 @@ const createPatient = async (req, res) => {
   });
   res.status(StatusCodes.CREATED).json({ patient });
 };
+
 const getPatient = async (req, res) => {
   const patient = await Patient.findOne({ email: req.user.email });
   if (!patient) {
@@ -30,11 +31,12 @@ const getPatient = async (req, res) => {
   }
   res.status(StatusCodes.OK).json({ patient });
 };
+
 const updatePatient = async (req, res) => {
   const patient = await Patient.findOneAndUpdate(
     { email: req.user.email },
     { ...req.body },
-    { new: true }
+    { new: true, runValidators: true }
   );
   if (!patient) {
     throw new NotFoundError("User not found");
@@ -42,4 +44,30 @@ const updatePatient = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Update successful", patient });
 };
 
-module.exports = { createPatient, getPatient, updatePatient, getAllPatients };
+const searchPatient = async (req, res) => {
+  const patient = await Patient.aggregate([
+    {
+      $search: {
+        index: "default",
+        text: {
+          query: req.params.key,
+          path: {
+            wildcard: "*",
+          },
+        },
+      },
+    },
+  ]);
+  if (!patient || patient.length < 1) {
+    return res.status(StatusCodes.OK).json({ mag: "Record not found" });
+  }
+  res.status(StatusCodes.OK).json({ patient });
+};
+
+module.exports = {
+  createPatient,
+  getPatient,
+  updatePatient,
+  getAllPatients,
+  searchPatient,
+};

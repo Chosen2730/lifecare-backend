@@ -4,6 +4,7 @@ const {
   getPatient,
   updatePatient,
   getAllPatients,
+  searchPatient,
 } = require("../controllers/patientLogic");
 const {
   authorize,
@@ -14,5 +15,11 @@ router.post("/", authorize, createPatient);
 router.get("/", authorize, getPatient);
 router.get("/all", authorize, authorizePermissions("admin"), getAllPatients);
 router.patch("/", authorize, updatePatient);
+router.get(
+  "/search/:key",
+  authorize,
+  authorizePermissions("admin", "doctor"),
+  searchPatient
+);
 
 module.exports = router;

@@ -22,7 +22,6 @@ const PatientSchema = new Schema({
     type: String,
     enum: ["male", "female"],
   },
-  tel: String,
   emergencyContact: String,
   bloodGroup: String,
   genotype: String,
