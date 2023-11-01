@@ -10,6 +10,7 @@ const authRouter = require("./routes/authRouter");
 const patientRouter = require("./routes/patientRouter");
 const doctorRouter = require("./routes/doctorRoute");
 const appointmentRouter = require("./routes/appointmentRoute");
+const adminRouter = require("./routes/adminRoute");
 
 //Error handling middlewares
 const notFoundMiddleware = require("./middlewares/notFoundMiddleWare");
@@ -28,6 +29,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/patient", patientRouter);
 app.use("/api/v1/doctor", doctorRouter);
 app.use("/api/v1/appointment", appointmentRouter);
+app.use("/api/v1/admin", adminRouter);
 
 app.use(express.urlencoded({ limit: "10mb", extended: "true" }));
 

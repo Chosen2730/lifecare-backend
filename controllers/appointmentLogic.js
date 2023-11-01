@@ -1,7 +1,19 @@
 const { StatusCodes } = require("http-status-codes");
 const Appointment = require("../models/appointmentSchema");
 const Doctor = require("../models/doctorSchema");
+const Patient = require("../models/patientModel");
 const { BadRequestError, NotFoundError } = require("../errors");
+
+const getDashDetails = async (req, res) => {
+  const appointments = await Appointment.find();
+  const doctor = await Doctor.find();
+  const patient = await Patient.find();
+  res.status(StatusCodes.OK).json({
+    patient: patient.length,
+    doctor: doctor.length,
+    appointment: appointments.length,
+  });
+};
 
 const getAllAppointments = async (req, res) => {
   const appointments = await Appointment.find()
@@ -86,4 +98,5 @@ module.exports = {
   getPatientsAppointments,
   getDoctorsAppointments,
   deleteAppointment,
+  getDashDetails,
 };
