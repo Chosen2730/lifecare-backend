@@ -4,7 +4,10 @@ const Doctor = require("../models/doctorSchema");
 const { BadRequestError, NotFoundError } = require("../errors");
 
 const getAllAppointments = async (req, res) => {
-  const appointments = await Appointment.find().sort({ createdAd: -1 });
+  const appointments = await Appointment.find()
+    .sort({ createdAd: -1 })
+    .populate("doctor")
+    .populate("patient");
   if (appointments.length < 1) {
     res.status(StatusCodes.OK).json({ msg: "No appointment found" });
     return;

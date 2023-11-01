@@ -33,6 +33,7 @@ const login = async (req, res) => {
       "Please provide a valid email, role and password"
     );
   }
+  //
   const user = await User.findOne({ email });
   if (!user) {
     throw new NotFoundError(
